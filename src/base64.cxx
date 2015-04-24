@@ -61,10 +61,14 @@ string base64_encode(const string &plaintext) {
     BIO_write(bio_, plaintext.c_str(), plaintext.size());
     BIO_flush(bio_);
     BIO_get_mem_ptr(bio_, &bufferPtr_);
-    BIO_set_close(bio_, BIO_NOCLOSE);
-    BIO_free_all(bio_);
 
-    return string(bufferPtr_->data, bufferPtr_->length);
+    const string tmp_(bufferPtr_->data, bufferPtr_->length);
+
+    BIO_free_all(bio_);
+    // 仅仅使用 BIO_free_all 无法释放所有内存
+    CRYPTO_cleanup_all_ex_data();
+
+    return tmp_;
 }
 
 string base64_decode(const string &cipher) {
@@ -81,7 +85,10 @@ string base64_decode(const string &cipher) {
     //Do not use newlines to flush buffer
     BIO_set_flags(bio_, BIO_FLAGS_BASE64_NO_NL);
     const size_t read_size_ = BIO_read(bio_, buffer, p_size_);
+
     BIO_free_all(bio_);
+    // 仅仅使用 BIO_free_all 无法释放所有内存
+    CRYPTO_cleanup_all_ex_data();
 
     if (read_size_ == p_size_) {
         buffer[p_size_] = '\0';
