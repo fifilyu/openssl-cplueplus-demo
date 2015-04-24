@@ -8,9 +8,6 @@
 #ifndef SRC_BASE64_H_
 #define SRC_BASE64_H_
 
-#include <openssl/bio.h>
-#include <openssl/evp.h>
-#include <openssl/buffer.h>
 #include <string>
 
 using std::string;

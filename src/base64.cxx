@@ -6,6 +6,9 @@
  */
 
 #include "base64.h"
+#include <openssl/bio.h>
+#include <openssl/evp.h>
+#include <openssl/buffer.h>
 
 size_t plaintext_size(const string &cipher) {
     const size_t size_ = cipher.size();
