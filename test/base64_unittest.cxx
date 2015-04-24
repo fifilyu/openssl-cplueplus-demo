@@ -12,11 +12,6 @@
 const string G_PLAINTEXT("Hello, World!");
 const string G_CIPER("SGVsbG8sIFdvcmxkIQ==");
 
-TEST(Base64Test, plaintext_size) {
-    const string ciper_(G_CIPER);
-    EXPECT_EQ(G_PLAINTEXT.size(), plaintext_size(ciper_));
-}
-
 TEST(Base64Test, base64_encode) {
     EXPECT_STREQ(G_CIPER.c_str(), base64_encode(G_PLAINTEXT).c_str());
 }
